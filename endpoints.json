@@ -1,0 +1,9 @@
+[
+  {
+    "name": "spin basic http",
+    "url": "https://fermyon-z9gfcobv.fermyon.app/basic-http",
+    "workload_type": "http",
+    "platform": "spin",
+    "language": "nodejs"
+  }
+]
