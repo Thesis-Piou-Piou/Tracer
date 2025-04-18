@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -euo pipefail
 
 mkdir -p results
@@ -33,10 +32,14 @@ done
 
 RESULTS_FILE="results/test_results.csv"
 
+if [[ ! -f "$RESULTS_FILE" ]]; then
+  echo "timestamp,name,trigger,platform,language,execution_ms,overhead_ms,total_ms,cold_start" >"$RESULTS_FILE"
+fi
+
 jq -c '.[]' endpoints.json | while IFS= read -r entry; do
   NAME=$(echo "$entry" | jq -r '.name')
   URL=$(echo "$entry" | jq -r '.url')
-  WORKLOAD=$(echo "$entry" | jq -r '.workload_type')
+  TRIGGER=$(echo "$entry" | jq -r '.trigger_type')
   PLATFORM=$(echo "$entry" | jq -r '.platform')
   LANG=$(echo "$entry" | jq -r '.language')
 
@@ -73,7 +76,7 @@ jq -c '.[]' endpoints.json | while IFS= read -r entry; do
     EXEC_TS_DISPLAY=$(printf "%.6f" "$EXEC_TS")
     OVERHEAD_DISPLAY=$(printf "%.6f" "$OVERHEAD")
 
-    echo "$TIMESTAMP,$NAME,$WORKLOAD,$PLATFORM,$LANG,$EXEC_TS_DISPLAY,$OVERHEAD_DISPLAY,$TOTAL_MS_DISPLAY,$COLD_START" \
+    echo "$TIMESTAMP,$NAME,$TRIGGER,$PLATFORM,$LANG,$EXEC_TS_DISPLAY,$OVERHEAD_DISPLAY,$TOTAL_MS_DISPLAY,$COLD_START" \
       >>"$RESULTS_FILE"
   done
 done
