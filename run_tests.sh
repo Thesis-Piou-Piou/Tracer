@@ -19,6 +19,20 @@ fi
 
 TIMESTAMP=$(date --iso-8601=seconds)
 
+NUM_RUNS=3
+
+while getopts "n:" opt; do
+  case $opt in
+  n) NUM_RUNS="$OPTARG" ;;
+  *)
+    echo "Usage: $0 [-n number_of_runs]"
+    exit 1
+    ;;
+  esac
+done
+
+RESULTS_FILE="results/test_results.csv"
+
 jq -c '.[]' endpoints.json | while IFS= read -r entry; do
   NAME=$(echo "$entry" | jq -r '.name')
   URL=$(echo "$entry" | jq -r '.url')
@@ -26,38 +40,46 @@ jq -c '.[]' endpoints.json | while IFS= read -r entry; do
   PLATFORM=$(echo "$entry" | jq -r '.platform')
   LANG=$(echo "$entry" | jq -r '.language')
 
-  echo "Testing $NAME at $URL..."
+  echo "🐤 Tracer tool running $NUM_RUNS test(s) for $NAME at $URL..."
 
-  START_TIME=$(date +%s.%N)
-  RESP=$(curl -s --max-time 10 "$URL")
+  for ((i = 1; i <= NUM_RUNS; i++)); do
+    COLD_START=false
+    if [[ $i -eq 1 ]]; then
+      COLD_START=true
+    fi
 
-  END_TIME=$(date +%s.%N)
-  TOTAL_MS=$(echo "$END_TIME - $START_TIME" | bc -l)
+    START_TIME=$(date +%s.%N)
+    RESP=$(curl -s --max-time 10 "$URL")
 
-  if [[ -z "$RESP" ]]; then
-    echo "[WARN] $NAME ($URL): No response received." >>"$ERROR_LOG"
-    continue
-  fi
+    END_TIME=$(date +%s.%N)
+    TOTAL_MS=$(echo "$END_TIME - $START_TIME" | bc -l)
 
-  if
-    ! echo "$RESP" | jq -e '.execution' >/dev/null 2>&1
-  then
-    echo "[WARN] $NAME ($URL): Malformed JSON or missing 'execution' field." >>"$ERROR_LOG"
-    continue
-  fi
+    if [[ -z "$RESP" ]]; then
+      echo "[WARN] $NAME ($URL) [Run #$i]: No response received." >>"$ERROR_LOG"
+      continue
+    fi
 
-  EXEC_TS=$(echo "$RESP" | jq -r '.execution | tonumber')
-  OVERHEAD=$(echo "$TOTAL_MS - $EXEC_TS" | bc -l)
+    if
+      ! echo "$RESP" | jq -e '.execution' >/dev/null 2>&1
+    then
+      echo "[WARN] $NAME ($URL) [Run #$i]: Malformed JSON or missing 'execution' field." >>"$ERROR_LOG"
+      continue
+    fi
 
-  TOTAL_MS_DISPLAY=$(printf "%.6f" "$TOTAL_MS")
-  OVERHEAD_DISPLAY=$(printf "%.6f" "$OVERHEAD")
+    EXEC_TS=$(echo "$RESP" | jq -r '.execution | tonumber')
+    OVERHEAD=$(echo "$TOTAL_MS - $EXEC_TS" | bc -l)
 
-  echo "$TIMESTAMP,$NAME,$WORKLOAD,$PLATFORM,$LANG,$EXEC_TS,$OVERHEAD_DISPLAY,$TOTAL_MS" \
-    >>results/test_results.csv
+    TOTAL_MS_DISPLAY=$(printf "%.6f" "$TOTAL_MS")
+    EXEC_TS_DISPLAY=$(printf "%.6f" "$EXEC_TS")
+    OVERHEAD_DISPLAY=$(printf "%.6f" "$OVERHEAD")
+
+    echo "$TIMESTAMP,$NAME,$WORKLOAD,$PLATFORM,$LANG,$EXEC_TS_DISPLAY,$OVERHEAD_DISPLAY,$TOTAL_MS_DISPLAY,$COLD_START" \
+      >>"$RESULTS_FILE"
+  done
 done
 
-echo "🐤 Test run complete."
-echo "✔️ Results saved to: results/test_results.csv"
+echo "✅ Test run complete."
+echo "✔️ Results saved to: $RESULTS_FILE"
 
 if [[ -s "$ERROR_LOG" ]]; then
   echo "⚠️  Some warnings logged to: $ERROR_LOG"
