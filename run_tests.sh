@@ -39,9 +39,18 @@ fi
 jq -c '.[]' endpoints.json | while IFS= read -r entry; do
   NAME=$(echo "$entry" | jq -r '.name')
   URL=$(echo "$entry" | jq -r '.url')
+  METHOD=$(echo "$entry" | jq -r '.method')
+  HAS_DATA=$(echo "$entry" | jq 'has("data")')
   TRIGGER=$(echo "$entry" | jq -r '.trigger_type')
   PLATFORM=$(echo "$entry" | jq -r '.platform')
   LANG=$(echo "$entry" | jq -r '.language')
+
+  if [[ "$METHOD" == "POST" && "$HAS_DATA" == "true" ]]; then
+    DATA=$(echo "$entry" | jq -c '.data')
+    CURL_CMD=(curl -s --max-time 35 -X POST "$URL" -H "Content-Type: application/json" -d "$DATA")
+  else
+    CURL_CMD=(curl -s --max-time 35 -X "$METHOD" "$URL")
+  fi
 
   echo "🐤 Tracer tool running $NUM_RUNS test(s) for $NAME at $URL..."
 
@@ -52,10 +61,12 @@ jq -c '.[]' endpoints.json | while IFS= read -r entry; do
     fi
 
     START_TIME=$(date +%s.%N)
-    RESP=$(curl -s --max-time 10 "$URL")
-
+    RESP=$("${CURL_CMD[@]}")
     END_TIME=$(date +%s.%N)
-    TOTAL_MS=$(echo "$END_TIME - $START_TIME" | bc -l)
+
+    START_TIME_MS=$(echo "$START_TIME * 1000" | bc)
+    END_TIME_MS=$(echo "$END_TIME * 1000" | bc)
+    TOTAL_MS=$(echo "$END_TIME_MS - $START_TIME_MS" | bc -l)
 
     if [[ -z "$RESP" ]]; then
       echo "[WARN] $NAME ($URL) [Run #$i]: No response received." >>"$ERROR_LOG"

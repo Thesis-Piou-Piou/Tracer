@@ -2,6 +2,60 @@
   {
     "name": "basic-http",
     "url": "https://fermyon-z9gfcobv.fermyon.app/basic-http",
+    "method": "GET",
+    "trigger_type": "http",
+    "platform": "spin",
+    "language": "nodejs"
+  },
+  {
+    "name": "light-compute",
+    "url": "https://fermyon-z9gfcobv.fermyon.app/light-compute",
+    "method": "POST",
+    "data": {
+      "matrixA": [
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "matrixB": [
+        [
+          5,
+          6
+        ],
+        [
+          7,
+          8
+        ]
+      ]
+    },
+    "trigger_type": "http",
+    "platform": "spin",
+    "language": "nodejs"
+  },
+  {
+    "name": "heavy-compute",
+    "url": "https://fermyon-z9gfcobv.fermyon.app/heavy-compute",
+    "method": "POST",
+    "data": {
+      "n": 1000
+    },
+    "trigger_type": "http",
+    "platform": "spin",
+    "language": "nodejs"
+  },
+  {
+    "name": "key-value",
+    "url": "https://fermyon-z9gfcobv.fermyon.app/key-value",
+    "method": "POST",
+    "data": {
+      "foo": "bar",
+      "baz": "qux"
+    },
     "trigger_type": "http",
     "platform": "spin",
     "language": "nodejs"
