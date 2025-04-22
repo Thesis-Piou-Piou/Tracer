@@ -4,9 +4,19 @@
     "url": "https://fermyon-z9gfcobv.fermyon.app/basic-http",
     "method": "GET",
     "trigger_type": "http",
-    "platform": "spin",
+    "platform": "Fermyon Spin",
     "language": "nodejs"
   },
+
+  {
+    "name": "basic-http",
+    "url": "https://8mvqnf9hvh.execute-api.eu-north-1.amazonaws.com/basic-http",
+    "method": "GET",
+    "trigger_type": "http",
+    "platform": "AWS Lambda",
+    "language": "nodejs"
+  },
+
   {
     "name": "light-compute",
     "url": "https://fermyon-z9gfcobv.fermyon.app/light-compute",
@@ -34,9 +44,41 @@
       ]
     },
     "trigger_type": "http",
-    "platform": "spin",
+    "platform": "Fermyon Spin",
     "language": "nodejs"
   },
+
+  {
+    "name": "light-compute",
+    "url": "https://uzfpnfa0yg.execute-api.eu-north-1.amazonaws.com/light-compute",
+    "method": "POST",
+    "data": {
+      "matrixA": [
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "matrixB": [
+        [
+          5,
+          6
+        ],
+        [
+          7,
+          8
+        ]
+      ]
+    },
+    "trigger_type": "http",
+    "platform": "AWS Lambda",
+    "language": "nodejs"
+  },
+
   {
     "name": "heavy-compute",
     "url": "https://fermyon-z9gfcobv.fermyon.app/heavy-compute",
@@ -45,9 +87,22 @@
       "n": 1000
     },
     "trigger_type": "http",
-    "platform": "spin",
+    "platform": "Fermyon Spin",
     "language": "nodejs"
   },
+
+  {
+    "name": "heavy-compute",
+    "url": "https://ql88y18fpc.execute-api.eu-north-1.amazonaws.com/heavy-compute",
+    "method": "POST",
+    "data": {
+      "n": 1000
+    },
+    "trigger_type": "http",
+    "platform": "AWS Lambda",
+    "language": "nodejs"
+  },
+
   {
     "name": "key-value",
     "url": "https://fermyon-z9gfcobv.fermyon.app/key-value",
@@ -57,7 +112,7 @@
       "baz": "qux"
     },
     "trigger_type": "http",
-    "platform": "spin",
+    "platform": "Fermyon Spin",
     "language": "nodejs"
   }
 ]
