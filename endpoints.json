@@ -5,18 +5,16 @@
     "method": "GET",
     "trigger_type": "http",
     "platform": "Fermyon Spin",
-    "language": "nodejs"
+    "language": "js"
   },
-
   {
     "name": "basic-http",
     "url": "https://8mvqnf9hvh.execute-api.eu-north-1.amazonaws.com/basic-http",
     "method": "GET",
     "trigger_type": "http",
     "platform": "AWS Lambda",
-    "language": "nodejs"
+    "language": "js"
   },
-
   {
     "name": "light-compute",
     "url": "https://fermyon-z9gfcobv.fermyon.app/light-compute",
@@ -45,9 +43,8 @@
     },
     "trigger_type": "http",
     "platform": "Fermyon Spin",
-    "language": "nodejs"
+    "language": "js"
   },
-
   {
     "name": "light-compute",
     "url": "https://uzfpnfa0yg.execute-api.eu-north-1.amazonaws.com/light-compute",
@@ -76,9 +73,8 @@
     },
     "trigger_type": "http",
     "platform": "AWS Lambda",
-    "language": "nodejs"
+    "language": "js"
   },
-
   {
     "name": "heavy-compute",
     "url": "https://fermyon-z9gfcobv.fermyon.app/heavy-compute",
@@ -88,9 +84,8 @@
     },
     "trigger_type": "http",
     "platform": "Fermyon Spin",
-    "language": "nodejs"
+    "language": "js"
   },
-
   {
     "name": "heavy-compute",
     "url": "https://ql88y18fpc.execute-api.eu-north-1.amazonaws.com/heavy-compute",
@@ -100,9 +95,8 @@
     },
     "trigger_type": "http",
     "platform": "AWS Lambda",
-    "language": "nodejs"
+    "language": "js"
   },
-
   {
     "name": "key-value",
     "url": "https://fermyon-z9gfcobv.fermyon.app/key-value",
@@ -113,6 +107,34 @@
     },
     "trigger_type": "http",
     "platform": "Fermyon Spin",
-    "language": "nodejs"
+    "language": "js"
+  },
+  {
+    "name": "key-value",
+    "url": "https://7e75hiep3lu2fe3paf6ghqse340ucovv.lambda-url.eu-north-1.on.aws/",
+    "method": "POST",
+    "data": {
+      "foo": "bar",
+      "baz": "qux"
+    },
+    "trigger_type": "http",
+    "platform": "AWS Lambda",
+    "language": "js"
+  },
+  {
+    "name": "query-external",
+    "url": "https://fermyon-z9gfcobv.fermyon.app/query-external",
+    "method": "GET",
+    "trigger_type": "http",
+    "platform": "Fermyon Spin",
+    "language": "js"
+  },
+  {
+    "name": "query-external",
+    "url": "https://yu5bbbvzp7srsxy4g3yzagkw4u0jhyea.lambda-url.eu-north-1.on.aws/",
+    "method": "GET",
+    "trigger_type": "http",
+    "platform": "AWS Lambda",
+    "language": "js"
   }
 ]
