@@ -34,8 +34,12 @@ jobs:
           include-hidden-files: true
 
       - name: Append results to a global repo file
-        run: |
-          cat results/test_results.csv >> cumulative_results.csv
+        run: | # cat results/test_results.csv >> cumulative_results.csv
+          if [ ! -f cumulative_results.csv ]; then 
+            cp results/test_results.csv cumulative_results.csv
+          else
+            tail -n +2 results/test_results.csv >> cumulative_results.csv
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add cumulative_results.csv
