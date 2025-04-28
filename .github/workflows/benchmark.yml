@@ -4,8 +4,8 @@ permissions:
   contents: write
 
 on:
-  #schedule:
-  #  - cron: '0 0,8,16 * * *'  # every 8 hours (00h00, 08h00, 16h00 UTC)
+  schedule:
+    - cron: '0 0,8,16 * * *'  # every 8 hours (00h00, 08h00, 16h00 UTC)
   workflow_dispatch:
 
 jobs:
