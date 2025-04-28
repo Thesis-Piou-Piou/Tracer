@@ -80,7 +80,7 @@
     "url": "https://fermyon-z9gfcobv.fermyon.app/heavy-compute",
     "method": "POST",
     "data": {
-      "n": 1000
+      "n": 1000000
     },
     "trigger_type": "http",
     "platform": "Fermyon Spin",
@@ -91,7 +91,7 @@
     "url": "https://ql88y18fpc.execute-api.eu-north-1.amazonaws.com/heavy-compute",
     "method": "POST",
     "data": {
-      "n": 1000
+      "n": 1000000
     },
     "trigger_type": "http",
     "platform": "AWS Lambda",

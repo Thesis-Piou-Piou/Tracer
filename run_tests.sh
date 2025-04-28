@@ -18,7 +18,7 @@ fi
 
 TIMESTAMP=$(date --iso-8601=seconds)
 
-NUM_RUNS=3
+NUM_RUNS=5
 
 while getopts "n:" opt; do
   case $opt in
