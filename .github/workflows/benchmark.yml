@@ -1,5 +1,8 @@
 name: Tracer cron pipeline
 
+permissions:
+  contents: write
+
 on:
   #schedule:
   #  - cron: '0 0,8,16 * * *'  # every 8 hours (00h00, 08h00, 16h00 UTC)
@@ -11,7 +14,7 @@ jobs:
 
     steps:
       - name: Check out repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up dependencies
         run: |
@@ -38,5 +41,3 @@ jobs:
           git add cumulative_results.csv
           git commit -m "Append test results [skip ci]"
           git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
